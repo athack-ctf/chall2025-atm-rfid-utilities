@@ -1,0 +1,4 @@
+art==6.4
+numpy==2.2.2
+pyscard==2.2.1
+wheel==0.45.1
