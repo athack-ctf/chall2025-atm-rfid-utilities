@@ -1,4 +1,4 @@
-# RFID utilities
+# ATM Challenge Utility
 
 > Author: Hugo Kermabon-Bobinnec
 
@@ -35,6 +35,22 @@ To reset a RFID card to the original state given a dump `chall.mfd`:
 
 ### Change a card's UID
 `nfc-mfsetuid <UID>`. UID is 4 bytes in hexadecimal, no spaces.
+
+
+
+## Printer
+
+To operate the printer; connect it through the USB port (the COM port makes the cable overheat for some reasons?)
+
+- Install python-escpos: `pip install python-escpos[all]`
+- Add a rule in to allow control of USB device:
+```
+# sudo nano /etc/udev/rules.d/99-escpos.rules
+SUBSYSTEM=="usb", ATTRS{idVendor}=="0416", ATTRS{idProduct}=="5011", MODE="0666"
+```
+- `sudo udevadm control --reload-rules` and `sudo udevadm trigger`
+
+You can then run `printer-test.py` for testing.
 
 
 
