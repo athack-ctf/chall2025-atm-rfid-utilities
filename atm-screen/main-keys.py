@@ -17,7 +17,7 @@ ATM_HEIGHT = 15
 BOX_WIDTH = 35
 BOX_HEIGHT = 9
 
-KEYS = [ord('/'), ord('8'), ord('5'), ord('2'), ord('*'), ord('9'), ord('6'), ord('3')]
+KEYS = [ord('j'), ord('s'), ord('l'), ord('a'), ord('q'), ord('p'), ord('w'), ord('e')]
 
 ADMIN_UID = [0xDE, 0xAD, 0xBE, 0xEF]
 
@@ -185,12 +185,12 @@ def draw_alert(stdscr, message, timeout=0):
             if elapsed > timeout:
                 curses.flushinp()
                 break
-            if key in [10, 13]:  # Enter key
+            if key in [10, 13, ord('k')]:  # Enter key
                 curses.flushinp()
                 break
         else:
             key = stdscr.getch()
-            if key in [10, 13]:  # Enter key
+            if key in [10, 13, ord('k')]:  # Enter key
                 curses.flushinp()
                 break
 
@@ -231,13 +231,13 @@ def draw_pin_box(stdscr, name):
                 win.addstr(input_y, input_x + len(pin)*2, "*")  # Show '*'
                 win.refresh()
 
-        elif key in [curses.KEY_BACKSPACE, 127]:  # Handle backspace
+        elif key in [curses.KEY_BACKSPACE, 127, ord('h')]:  # Handle backspace
             if pin:
                 pin = pin[:-1]
                 win.addstr(input_y, input_x + len(pin)*2 + 2, " ")  # Clear last '*'
                 win.refresh()
 
-        elif key in [10, 13]:  # Enter key
+        elif key in [10, 13, ord('k')]:  # Enter key
             if len(pin) == 4:
                 return pin  # Return the entered PIN
         

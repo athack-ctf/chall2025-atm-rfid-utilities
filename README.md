@@ -12,11 +12,33 @@ Utilities for preparing and maintaining RFID challenges for @HackCTF 2025
 
 ## Installation
 
-- `sudo apt install libusb-dev libnfc-dev libnfc-bin libnfc-examples pcscd pcsc-tools`
+- `sudo apt install libusb-dev libnfc-dev libnfc-bin libnfc-examples pcscd pcsc-tools build-essential libpcsclite-dev python3-dev`
+- `source ./venv/bin/activate` or `pip install -r requirements.txt` if you have an env already.
 - Test that your device is present in USB: `lsusb`
 - Test a scan with `pcsc_scan`. Removing and putting the card should trigger state changes.
 - 
 
+
+## Key Mapping
+"1-9" --> 1-9`
+"Cancel" --> f
+"Clear" --> h
+"Enter" --> k
+"Blank" --> o
+"<" --> r
+">" --> y
+
+LEFT
+x --> j
+x --> s
+x --> l
+x --> a
+
+RIGHT
+x --> q
+x --> p
+x --> w
+x --> e
 
 ## Utilities
 
