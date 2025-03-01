@@ -18,22 +18,29 @@ def authenticate_with_keyA(connection, sector, key=[0xFF, 0xFF, 0xFF, 0xFF, 0xFF
     response, sw1, sw2 = connection.transmit(command)
     return sw1 == 0x90 and sw2 == 0x00
 
-def read_block(connection, sector, block):
-    """Read 16 bytes from a specific block in a sector using Key A."""
+def write_block(connection, sector, block, data):
+    """Write 16 bytes of zero data to a specific block in a sector."""
     if not authenticate_with_keyA(connection, sector):
-        return None
-
-    command = [0xFF, 0xB0, 0x00, block, 0x10]  # Read 16 bytes
+        return False
+    
+    if (block % 4) == 3:
+        print("Skipping sector trailer block to avoid bricking the card.")
+        return False
+    
+    command = [0xFF, 0xD6, 0x00, block, 0x10] + data
     response, sw1, sw2 = connection.transmit(command)
-    if sw1 == 0x90 and sw2 == 0x00:
-        return response
-    return None
+    return sw1 == 0x90 and sw2 == 0x00
 
-def read_uid(connection):
-    """Read UID (Block 0)."""
-    apdu_read_uid = [0xFF, 0xCA, 0x00, 0x00, 0x04]
-    response, sw1, sw2 = connection.transmit(apdu_read_uid)
-    return response if sw1 == 0x90 and sw2 == 0x00 else None
+def reset_card(connection):
+    """Reset the card by overwriting all writable blocks with zeros."""
+    zero_data = [0x00] * 16
+    
+    for sector in range(1, 12):  # Reset sectors 1 to 11
+        for block in range(sector * 4, sector * 4 + 3):  # Skip sector trailer
+            if write_block(connection, sector, block, zero_data):
+                print(f"Reset Sector {sector}, Block {block} successfully.")
+            else:
+                print(f"Failed to reset Sector {sector}, Block {block}.")
 
 def wait_for_card():
     """Wait for a card to be inserted and return the connection object."""
@@ -55,36 +62,14 @@ def wait_for_card():
         except smartcard.Exceptions.NoCardException:
             pass
 
-def check_card_data(connection):
-    """Check if the card has been written to and display the details."""
-    uid = read_uid(connection)
-    if not uid:
-        print("Failed to read card UID.")
-        return False
-    print(f"Card UID: {toHexString(uid)}")
-    
-    data_found = False
-    
-    for sector in range(1, 12):  # Scan sectors 1 to 11
-        for block in range(sector * 4, sector * 4 + 3):  # Skip sector trailer blocks
-            data = read_block(connection, sector, block)
-            if data and any(byte != 0x00 for byte in data):  # Check if block has data
-                data_found = True
-                print(f"Sector {sector}, Block {block}: {bytes(data).decode(errors='ignore')}")
-    
-    if not data_found:
-        print("No data found on card.")
-    
-    return data_found
-
 def main():
     while True:
         try:
             connection = wait_for_card()
-            print("Card detected!")
-            check_card_data(connection)
+            print("Card detected! Resetting...")
+            reset_card(connection)
             connection.disconnect()
-            print("Remove card!")
+            print("Card reset successfully! Remove the card.")
             time.sleep(2)
         except Exception as e:
             print(f"Error: {e}")
