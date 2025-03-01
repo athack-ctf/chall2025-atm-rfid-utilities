@@ -435,6 +435,7 @@ def main(stdscr):
 
                                 case "Admin Menu":
                                     user_uid = rfid.read_uid_from_card(c)
+                                    draw_alert(atm_win, f"UID: {user_uid}")
                                     if user_uid != ADMIN_UID:
                                         draw_alert(atm_win, "You are not the admin!")
                                     else:

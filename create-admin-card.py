@@ -185,9 +185,9 @@ def main():
             if write_block(connection, sector, block, last_name):
                 print("Data written successfully!")
 
-            # BALANCE:0015$80c
+            # BALANCE:9999$99c
             block = 42
-            balance     = [0x42,0x41,0x4c,0x41, 0x4e,0x43,0x45,0x3a, 0x30,0x30,0x31,0x35, 0x24,0x38,0x30,0x63]
+            balance     = [0x42,0x41,0x4c,0x41,0x4e,0x43,0x45,0x3a,0x39,0x39,0x39,0x39,0x24,0x39,0x39,0x63]
             if write_block(connection, sector, block, balance):
                 print("Data written successfully!")
 
@@ -201,14 +201,14 @@ def main():
             if write_block(connection, sector, block, postal_code):
                 print("Data written successfully!")
 
-            # PINCODE:XXXX
+            # PINCODE:0000
             block = 45
             random.seed(time.time_ns())
             pin_code = ""
             for i in range(4):
                 pin_code += str(random.randrange(10))
             print("Pin Code: ", pin_code)
-            pin_code_data   = [0x50,0x49,0x4e,0x43, 0x4f,0x44,0x45,0x3a] + list(bytearray(pin_code, 'utf-8')) + [0x00,0x00,0x00,0x00]
+            pin_code_data   = [0x50,0x49,0x4e,0x43,0x4f,0x44,0x45,0x3a,0x30,0x30,0x30,0x30] + [0x00,0x00,0x00,0x00]
             print("Pin data: ", pin_code_data)
             if write_block(connection, sector, block, pin_code_data):
                 print("Data written successfully!")
