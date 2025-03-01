@@ -1,4 +1,4 @@
-from escpos import *
+
 
 
 def print_and_exit(p):
@@ -8,7 +8,7 @@ def print_and_exit(p):
 
 
 
-p = printer.Usb(0x0416,0x5011, profile='POS-5890', in_ep=0x81, out_ep=0x03)
+
 
 
 p.text("ATHACKCTF{}\n")

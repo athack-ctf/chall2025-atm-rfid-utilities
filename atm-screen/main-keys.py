@@ -8,7 +8,7 @@ import sys
 import os
 import rfid
 import smartcard
-
+from escpos import *
 
 ATM_WIDTH = 50
 ATM_HEIGHT = 15
@@ -19,13 +19,14 @@ BOX_HEIGHT = 9
 
 KEYS = [ord('j'), ord('s'), ord('l'), ord('a'), ord('q'), ord('p'), ord('w'), ord('e')]
 
-ADMIN_UID = [0xDE, 0xAD, 0xBE, 0xEF]
+# ADMIN_UID = [0xDE, 0xAD, 0xBE, 0xEF]
+ADMIN_UID = "DE AD BE EF"
 
 
 FLAG3_PRICE = 514
 
-FLAG2 = "ATHACKCTF{FLAG2}"
-FLAG3 = "ATHACKCTF{FLAG3}"
+FLAG2 = "ATHACKCTF{Sp00fingUIDz}"
+FLAG3 = "ATHACKCTF{printf('$money$');}"
 
 stop_event = threading.Event()
 card_present = False
@@ -51,6 +52,74 @@ def check_card_presence(stdscr, conn):
                 reset()
 
         time.sleep(0.1)
+
+
+def format_flag(first_name, last_name, uid, balance, chall_name, flag):
+    template_top = \
+    f""" 
+
+
+    #######################   
+   #########################  
+  ########################### 
+  #######:::::::::::::####### 
+  ######::###########::###### 
+  ######::##:::::::##::###### 
+  ######::#+::###::##::###### 
+  ######::#+::###::##::###### 
+  ######::##:::::::==::###### 
+  ######::################### 
+  #######:::::::::########### 
+  ########################### 
+   #########################  
+    #######################   
+
+==============================
+|       ATHACKTF 2025        |
+|      Secure & Trusted      |
+==============================
+
+ACCOUNT STATEMENT
+==============================
+Name : {first_name} {last_name}
+Acc# : {uid}
+==============================
+
+DATE    | DESCRIPTION | AMOUNT
+------------------------------
+March 1st 2025 | A flag | 0$  
+March 2nd 2025 | Prize? | ?$  
+"""
+
+    template_bottom = \
+f"""
+{chall_name}
+{flag}
+
+==============================
+   BALANCE: ${balance}
+==============================
+
+==============================
+|     THANKS FOR PLAYING!    |
+|     Visit us again <3      |
+==============================
+"""
+
+    template = template_bottom + template_top
+    return template.split("\n")
+
+
+def print_flag(p, atm_win, receipt):
+    # First 20= header for next flag
+    try:
+        for line in receipt:
+            p.text(f"{line}\n")
+
+    except Exception as e:
+        draw_alert(atm_win, message="Printing error..", timeout=2)
+        pass
+    
 
 
 
@@ -348,7 +417,13 @@ def main(stdscr):
         atm_win = curses.newwin(ATM_HEIGHT, ATM_WIDTH, start_y, start_x)
 
         draw_welcome_screen(atm_win)
-
+        try:
+            p = printer.Usb(0x0416,0x5011, profile='POS-5890', in_ep=0x81, out_ep=0x03)
+        except Exception as e:
+            p = None
+            draw_alert(atm_win, message=f"Printing error...", timeout=1)
+            pass
+        
         c = wait_for_card()
         card_present = True
 
@@ -358,6 +433,15 @@ def main(stdscr):
     
         
         if authenticate_with_code(atm_win, c):
+
+            first_name = rfid.read_first_name_from_card(c)
+            last_name = rfid.read_last_name_from_card(c)
+            birthdate = rfid.read_birthdate_from_card(c)
+            postal_code = rfid.read_postcode_from_card(c)
+            uid = rfid.read_uid_from_card(c)
+            pincode = rfid.read_pin_from_card(c)
+            user_funds = rfid.read_balance_from_card(c)
+
             while True:
                 root_menu = ["Balance", "Withdrawal", "Deposit", "Transfer", "Settings", "", "", "<Exit>"]
 
@@ -366,7 +450,7 @@ def main(stdscr):
                     
                     # Balance
                     case "Balance":
-                        user_funds = rfid.read_balance_from_card(c)
+                        
                         draw_alert(atm_win, message=f"Your have {user_funds}$.")
                  
                     # Withdraw
@@ -377,13 +461,15 @@ def main(stdscr):
 
                             match user_choice:
                                 case "The Flag!?":
-                                    user_funds = rfid.read_balance_from_card(c)
                                     if user_funds < FLAG3_PRICE:
                                         draw_alert(atm_win, message=["The flag is priceless...", "", f"(ok fine, I'll sell it for {FLAG3_PRICE}$)"])
                                     else:
                                         # remove_balance_from_card(c, FLAG3_PRICE)
-                                        ## TODO Replace with print flag.
-                                        draw_alert(atm_win, message=["Congrats, @Hacker!", "You are now the proud", "owner of a flag!", f"Printing receipt..."], timeout=5)
+                                        # draw_alert(atm_win, message=["Congrats, @Hacker!", "You are now the proud", "owner of a flag!", f"Printing receipt..."], timeout=5)
+                                        receipt = format_flag(first_name, last_name, user_uid, user_funds, chall_name="Automated Terrible Machine:", flag=FLAG3)
+                                        print_flag(p, atm_win, receipt)
+                                        draw_alert(atm_win, ["Wish I could do that", "on my credit card...", f"{FLAG3}"], timeout=10)
+
                                         pass
                                     
                                 case "<Back>":
@@ -394,7 +480,6 @@ def main(stdscr):
 
                                 case _:
                                     withdraw_value = int(user_choice[:-1])
-                                    user_funds = rfid.read_balance_from_card(c)
                                     if withdraw_value > user_funds:
                                         draw_alert(atm_win, message="Not enough funds on card :(")
                                     else:
@@ -415,13 +500,6 @@ def main(stdscr):
 
                             match user_choice:
                                 case "Profile":
-                                    first_name = rfid.read_first_name_from_card(c)
-                                    last_name = rfid.read_last_name_from_card(c)
-                                    birthdate = rfid.read_birthdate_from_card(c)
-                                    postal_code = rfid.read_postcode_from_card(c)
-                                    uid = rfid.read_uid_from_card(c)
-                                    pincode = rfid.read_pin_from_card(c)
-
                                     draw_alert(atm_win, [f"First Name: {first_name}",
                                                         f"Last Name: {last_name}",
                                                         f"Birthdate: {birthdate}",
@@ -435,12 +513,13 @@ def main(stdscr):
 
                                 case "Admin Menu":
                                     user_uid = rfid.read_uid_from_card(c)
-                                    draw_alert(atm_win, f"UID: {user_uid}")
+                                    # draw_alert(atm_win, f"UID: {user_uid}")
                                     if user_uid != ADMIN_UID:
                                         draw_alert(atm_win, "You are not the admin!")
                                     else:
-                                        draw_alert(atm_win, ["I know you'd come, Roger...", f"{FLAG2}"])
-
+                                        receipt = format_flag(first_name, last_name, user_uid, user_funds, chall_name="UIDentity Crisis:", flag=FLAG2)
+                                        print_flag(p, atm_win, receipt)
+                                        draw_alert(atm_win, ["I know you'd come, Roger...", f"{FLAG2}"], timeout=3)
                                 case "<Back>":
                                     break
 
