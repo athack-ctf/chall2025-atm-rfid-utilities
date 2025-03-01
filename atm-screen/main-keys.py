@@ -338,6 +338,7 @@ def main(stdscr):
     try:
         curses.curs_set(0)  # Hide cursor
         stdscr.nodelay(False)   # Wait for user input
+        # curses.resizeterm(200, 200)
         # stdscr.keypad(1)    # Enable arrow keys
 
         # Center ATM window inside terminal
