@@ -19,7 +19,7 @@ Utilities for preparing and maintaining RFID challenges for @HackCTF 2025
 
 ## Key Mapping
 ### Bottom Keyboard
-- `1-9` ➡️ `1-9`
+- `0-9` ➡️ `0-9`
 - `Cancel` ➡️ `f`
 - `Clear` ➡️ `h`
 - `Enter` ➡️ `k`
