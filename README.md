@@ -19,7 +19,21 @@ Utilities for preparing and maintaining RFID challenges for @HackCTF 2025
 
 ## Key Mapping
 
-![Alt Text](imgs/atm_keyboards.png)
+<p align="center">
+<img src="imgs/atm_keyboards.png" width="300"></a>
+</p>
+
+## Top Left Keyboard
+- `L1` ➡️ `j`
+- `L2` ➡️ `s`
+- `L3` ➡️ `l`
+- `L4` ➡️ `a`
+
+## Top Right Keyboard
+- `R1` ➡️ `q`
+- `R2` ➡️ `p`
+- `R3` ➡️ `w`
+- `R4` ➡️ `e`
 
 ### Bottom Keyboard
 - `0-9` ➡️ `0-9`
@@ -29,18 +43,6 @@ Utilities for preparing and maintaining RFID challenges for @HackCTF 2025
 - `Blank` ➡️ `o`
 - `<` ➡️ `r`
 - `>` ➡️ `y`
-
-## Top Left Keyboard
-- `x` ➡️ `j`
-- `x` ➡️ `s`
-- `x` ➡️ `l`
-- `x` ➡️ `a`
-
-## Top Right Keyboard
-- `x` ➡️ `q`
-- `x` ➡️ `p`
-- `x` ➡️ `w`
-- `x` ➡️ `e`
 
 ## Utilities
 
