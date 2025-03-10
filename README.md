@@ -18,6 +18,9 @@ Utilities for preparing and maintaining RFID challenges for @HackCTF 2025
 - Test a scan with `pcsc_scan`. Removing and putting the card should trigger state changes.
 
 ## Key Mapping
+
+![Alt Text](imgs/atm_keyboards.png)
+
 ### Bottom Keyboard
 - `0-9` ➡️ `0-9`
 - `Cancel` ➡️ `f`
