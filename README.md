@@ -37,12 +37,12 @@ Utilities for preparing and maintaining RFID challenges for @HackCTF 2025
 
 ### Bottom Keyboard
 - `0-9` ➡️ `0-9`
+- `<` ➡️ `r`
+- `>` ➡️ `y`
 - `Cancel` ➡️ `f`
 - `Clear` ➡️ `h`
 - `Enter` ➡️ `k`
 - `Blank` ➡️ `o`
-- `<` ➡️ `r`
-- `>` ➡️ `y`
 
 ## Utilities
 
