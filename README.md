@@ -23,26 +23,22 @@ Utilities for preparing and maintaining RFID challenges for @HackCTF 2025
 <img src="imgs/atm_keyboards.png" width="300"></a>
 </p>
 
-## Top Left Keyboard
-- `L1` ➡️ `j`
-- `L2` ➡️ `s`
-- `L3` ➡️ `l`
-- `L4` ➡️ `a`
+|   Top Left  |   Top Right  |
+|:-----------:|:------------:|
+| `L1` ➡️ `j` | `R1` ➡️ `q` | 
+| `L2` ➡️ `s` | `R2` ➡️ `p` | 
+| `L3` ➡️ `l` | `R3` ➡️ `w` | 
+| `L4` ➡️ `a` | `R4` ➡️ `e` | 
 
-## Top Right Keyboard
-- `R1` ➡️ `q`
-- `R2` ➡️ `p`
-- `R3` ➡️ `w`
-- `R4` ➡️ `e`
-
-### Bottom Keyboard
-- `0-9` ➡️ `0-9`
-- `<` ➡️ `r`
-- `>` ➡️ `y`
-- `Cancel` ➡️ `f`
-- `Clear` ➡️ `h`
-- `Enter` ➡️ `k`
-- `Blank` ➡️ `o`
+| Bottom Keyboard |
+|:---------------:|
+| `0-9` ➡️ `0-9`  |
+|   `<` ➡️ `r`    |
+|   `>` ➡️ `y`    |
+| `Cancel` ➡️ `f` |
+| `Clear` ➡️ `h`  |
+| `Enter` ➡️ `k`  |
+| `Blank` ➡️ `o`  |
 
 ## Utilities
 
