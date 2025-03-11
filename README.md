@@ -1,3 +1,9 @@
+![The Bulletproofs](imgs/the_bulletproofs.jpg)
+
+
+>From left to right: [Massimo](https://github.com/Extinctable), [Dana](https://github.com/d-abous), [Jeslyn](https://github.com/JenLys), [Alin](https://github.com/serbancaia).
+
+---
 # ATM Challenge Utilities
 
 > Author: Hugo Kermabon-Bobinnec
