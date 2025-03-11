@@ -1,9 +1,8 @@
-# ATM Challenge Utility
+# ATM Challenge Utilities
 
 > Author: Hugo Kermabon-Bobinnec
 
 Utilities for preparing and maintaining RFID challenges for @HackCTF 2025
-
 
 ## Requirements
 - Linux machine, Ubuntu/Debian prefered - While WSL works fine (see Notes - WSL section), I did not have any luck with a VirtualBox VM on a Windows computer.
