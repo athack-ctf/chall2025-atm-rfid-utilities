@@ -6,7 +6,7 @@
 ---
 # RFID Utilities for the ATM Challenge
 
-> Author: Hugo Kermabon-Bobinnec
+> Author: [Hugo Kermabon-Bobinnec](https://github.com/hkerma)
 
 Utilities for preparing and maintaining RFID challenges for @HackCTF 2025
 
