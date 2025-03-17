@@ -4,7 +4,7 @@
 >From left to right: [Massimo](https://github.com/Extinctable), [Dana](https://github.com/d-abous), [Jeslyn](https://github.com/JenLys), [Alin](https://github.com/serbancaia).
 
 ---
-# RFID Utilities for the ATM Challenge
+# RFID Utilities for the ATM Challenges
 
 > Author: [Hugo Kermabon-Bobinnec](https://github.com/hkerma)
 
